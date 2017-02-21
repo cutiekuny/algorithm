@@ -1,0 +1,9 @@
+2 CyclicRotation
+
+https://codility.com/demo/results/training9NNY24-HPR/
+
+2 OddOccurrencesInArray
+https://codility.com/demo/results/trainingW6J9B9-XFS/
+
+3 TapeEquilibrium
+https://codility.com/demo/results/training6N5QMJ-88F/
