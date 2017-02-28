@@ -1,0 +1,86 @@
+4-1 MissingInteger
+
+import java.util.HashSet;
+
+class Solution {
+    public int solution(int[] A) {
+        HashSet<Integer> set = new HashSet<>();
+        for(int i=0; i<A.length; i++){
+        	if(A[i]>0){
+        		set.add(A[i]);
+        	}
+        }
+        for(int i=1; i<Integer.MAX_VALUE; i++){
+        	if(!set.contains(new Integer(i))){
+        		return i;
+        	}
+        }
+        
+        return 1;
+    }
+}
+
+
+
+4-2 PermCheck
+
+import java.util.HashSet;
+
+class Solution {
+    public int solution(int[] A) {
+        HashSet<Integer> set = new HashSet<>();
+        for(int i=0; i<A.length; i++){
+        	set.add(A[i]);
+        }
+        for(int i=1; i<A.length+1; i++){
+        	if(!set.contains(i)){
+        		return 0;
+        	}
+        }
+        return 1;
+    }
+}
+
+
+5-1 CountDiv
+
+class Solution {
+    public int solution(int A, int B, int K) {
+        // write your code in Java SE 8
+        boolean b;
+        if(A % K==0){
+            b = true;   
+        }else{
+            b = false;   
+        }
+        return b ? (B/K)-(A/K)+1:(B/K)-(A/K) ;
+    }
+}
+
+
+6-1 Distinct
+
+public int solution(int[] A) {
+	HashSet<Integer> set = new HashSet<Integer>();
+	
+	for(int i=0; i<A.length; i++){
+	    set.add(A[i]);
+	}
+	
+	return set.size();
+    }
+
+
+
+6-2 MaxProductOfThree
+
+https://codility.com/demo/results/trainingVMF7C9-23C/
+
+
+
+6-3 Triangle
+
+https://codility.com/demo/results/trainingB8ZF5S-YCC/
+
+
+
