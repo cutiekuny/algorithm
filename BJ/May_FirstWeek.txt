@@ -1,0 +1,176 @@
+* Question 
+https://www.acmicpc.net/problem/14501
+https://www.acmicpc.net/problem/14503
+
+//14501
+#include <stdio.h>
+
+
+int result;
+int index = 0;
+
+
+int *arr;
+int *in1;
+int *in2;
+int N;
+
+void sol(int i){
+	int tmpMax;
+	int index = i + in1[i];
+	int max = 0;
+
+	if (i > 0)
+		max = arr[i - 1];
+	if (max < arr[i])
+		max = arr[i];
+
+	arr[i] = max;
+
+	if ( index <= N){
+		if (arr[index] <  (arr[i] + in2[i]) )
+			arr[index] = arr[i] + in2[i];
+	}
+}
+
+int main(void){
+	int  a, b;
+	
+	scanf("%d", &N);
+	in1 = new int[N];
+	in2 = new int[N];
+	arr = new int[N+1];
+	for(int i=0; i<N; i++){
+		scanf("%d %d", &a, &b);
+		in1[i] = a;
+		in2[i] = b;
+		arr[i] = 0;
+	}
+
+	for (int i = 0; i < N; i++){
+		sol(i);
+	}
+
+	if (arr[N] < arr[N - 1]){
+		arr[N] = arr[N - 1];
+	}
+	printf("%d\n", arr[N]);
+	
+	return 0;
+}
+
+
+//14503
+#include <stdio.h>
+
+#define North 0
+#define East 1
+#define South 2
+#define West 3
+
+#define Clean 5
+#define Wall 1
+
+
+int dir[4][2] = { { -1, 0 }, { 0, 1 }, { 1, 0 }, {0, -1 } };
+int **room;
+int M, N,x,y,d;
+bool oper;
+
+int res = 0;
+bool isClean(int x, int y){
+	if (x < 0 || x >= M)
+		return true;
+
+	if (y < 0 || y >= N)
+		return true;
+
+	if (room[x][y] == Clean || room[x][y] == Wall)
+		return true;
+
+	return false;
+}
+
+
+void rotation(){
+	d--;
+	if (d < 0)
+		d = 3;
+}
+
+void front(){
+	x = x + dir[d][0];
+	y = y + dir[d][1];
+}
+
+bool isOkBack()
+{
+	int tmp = (d + 2) % 4;
+	int ax = x + dir[tmp][0];
+	int ay = y + dir[tmp][1];
+	if (room[ax][ay] == Wall)
+		return false;
+	return true;
+}
+
+void back(){
+	int tmp =  (d+2)%4;
+	x = x + dir[tmp][0];
+	y = y + dir[tmp][1];
+}
+
+
+void sol(){
+	if (room[x][y] == 0){
+		room[x][y] = Clean;
+		res++;
+	}
+
+	int i;
+	for (i = 0; i < 4; i++){
+		rotation();
+		int ax = dir[d][0];
+		int ay = dir[d][1];
+		if (!isClean(x+ax, y+ay)){
+			front();
+			break;
+		}
+	}
+
+	if (i == 4){
+		if (isOkBack())
+			back();
+		else
+			oper = 0;
+	}
+	
+}
+
+int main(){
+	M = 11;
+	N = 10;
+	x = 7, y = 4, d = 0;
+	
+	scanf("%d %d", &M,&N);
+	scanf("%d %d %d", &x, &y,&d);
+
+	room = new int*[M];
+
+	for (int i = 0; i < M; i++){
+		room[i] = new int[N];
+	}
+	for (int i = 0; i< M; i++){
+		for (int j = 0; j < N; j++)
+			scanf("%d", &room[i][j]);
+	}
+
+	oper = true;
+
+	while (oper)
+	{
+		sol();
+	}
+	printf("%d", res);
+
+	return 0;
+}
