@@ -1,0 +1,211 @@
+//2438 Code by yh & dy
+
+#include <stdio.h>
+
+int main(void){
+	int i, j;
+	int num = 0;
+	scanf("%d", &num);
+
+	for (i = 0; i<num; i++){
+		for (j = 0; j<i + 1; j++){
+			printf("*");
+		}
+		printf("\n");
+	}
+
+	return 0;
+}
+
+
+//2292 Code by yh & dy
+
+#include <stdio.h>
+int main(void){
+
+	int input = 1;
+	int c = 1;
+	int n;
+
+	scanf("%d", &input);
+	for (n = 1; n<1000000000; n++){
+		if (input <= c){
+			printf("%d\n", n);
+			break;
+		}
+			
+		c = c + 6 * n;
+	}
+}
+
+
+//1193 Code by yh & dy
+
+#include <stdio.h>
+
+int main(void){
+	int input = 0;
+	int direction = 0;
+	int i = 1;
+	int j = 0;
+	int output1 = 0;
+	int output2 = 0;
+
+
+	scanf("%d", &input);
+
+	while (input>i){
+		input = input - i;
+		i++;
+	}
+	
+	direction = i % 2;
+
+	for (j = 0; j<input; j++){
+		if (direction == 1){
+			output1 = i - j;
+			output2 = 1 + j;
+		}
+		else{
+			output1 = 1 + j;
+			output2 = i - j;
+		}
+	}
+	printf("%d/%d", output1, output2);
+	
+	return 0;
+}
+
+
+//1924 Code by yh & dy
+
+#include <stdio.h>
+
+int main(){
+    int month,day,x1;
+    
+    int x[12]= {31,28,31,30,31,30,31,31,30,31,30,31};
+    scanf("%d %d",&month,&day);
+    x1=1;
+
+    for(int i =0; i< month-1; i++){
+        x1+=x[i];
+    }
+    x1+=day;
+    switch((x1-1)%7){
+        case 1: printf("MON"); break;
+        case 2: printf("TUE"); break;
+        case 3: printf("WED"); break;
+        case 4: printf("THU"); break;
+        case 5: printf("FRI"); break;
+        case 6: printf("SAT"); break;
+        default: printf("SUN"); break;
+    }
+    
+}
+
+
+//2775 Code by yh & dy
+
+#include <stdio.h>
+
+int main(){
+	int N;
+	int x[15][15];
+
+	for (int j = 1; j < 15; j++){
+		x[0][j] = j;
+	}
+
+	int tmp=0;
+	for (int i = 1; i < 15; i++){
+		tmp = 0;
+		for (int j = 1; j < 15; j++){
+			tmp += x[i - 1][j];
+			x[i][j] = tmp;
+		}
+	}
+	
+	scanf("%d", &N);
+	while (N >0){
+		int i1, i2;
+		scanf("%d", &i1);
+		scanf("%d", &i2);
+		printf("%d\n", x[i1][i2]);
+		N--;
+	}
+}
+
+
+//6064 Code by yh & dy
+
+#include <stdio.h>
+int abs(int x){
+    return x > 0 ? x : -x;
+}
+int gcd(int a, int b) {
+
+	while (b != 0) {
+		int temp = a % b;
+		a = b;
+		b = temp;
+	}
+
+	return abs(a);
+}
+
+int lcm(int a, int b) {
+	int gcd_value = gcd(a, b);
+
+	if (gcd_value == 0) return 0;  // 인수가 둘다 0일 때의 에러 처리
+
+	return abs((a * b) / gcd_value);
+}
+int sol(int m, int n, int x, int y){
+	int flag=0;
+	if (m > n){
+		flag = 1;
+	}
+	int m1, n1, x1, y1;
+	
+	if (flag == 1){
+		m1 = m; n1 = n;
+		x1 = x; y1 = y;
+	}
+	else{
+		m1 = n; n1 = m;
+		x1 = y; y1 = x;
+	}
+	int res = -1;
+		int hop = m1 - n1;
+		int s = x1%n1;
+		if (s == 0)
+			s = n1;
+		int loopcnt = lcm(m, n) / m1;
+		for (int i = 0; i < loopcnt ; i++){
+			if (s == y1)
+				res = m1*i + x1;
+			s = (s + hop) % n1;
+            if (s == 0)
+			s = n1;
+		}
+
+	
+	return res;
+}
+
+int main(){
+	int N;
+	int m,n,x,y;
+	scanf("%d", &N);
+
+	while (N > 0){
+		scanf("%d %d %d %d", &m, &n, &x, &y);
+		int res =sol(m, n, x, y);
+		printf("%d\n", res);
+		
+		N--;
+	}
+
+	return 0;
+}
