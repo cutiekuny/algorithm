@@ -1,0 +1,232 @@
+/*
+문제 마이다스수
+http://bbangdeveloper.tistory.com/entry/%EB%A7%88%EC%9D%B4%EB%8B%A4%EC%8A%A4%EC%88%98%EC%86%8C%EC%88%98%EA%B5%AC%ED%95%98%EA%B8%B0
+*/
+#include <stdio.h>
+#include <math.h>
+
+int maxPrime(int N, int size){
+	bool isPrimeFactor;
+	int size2;
+	int primeFactor;
+
+	for (int i = size; i > 1; i--) {
+		isPrimeFactor = true;
+		if (N % i == 0) {
+			size2 = (int)sqrt((double)i);
+			for (int j = 2; j <= size2; j++) {
+				if (i % j == 0) {
+					isPrimeFactor = false;
+					break;
+				}
+			}
+			if (isPrimeFactor) {
+				primeFactor = i;
+				break;
+			}
+
+		}
+	}
+	return primeFactor;
+}
+
+int main(void){
+	int primeFactor = 0;
+	int N = 100000;
+	int M = 100;
+	bool isPrimeFactor = true;
+	int cnt = 0;
+
+	int size = (int)sqrt((double)N);
+	int size2 = 0;
+	int cmp;
+
+	scanf("%d", &N);
+	scanf("%d", &M);
+
+	for (int i = 2; i <= N; i++){
+		cmp = maxPrime(i, size);
+		if (M >= cmp){
+			cnt++;
+		}
+	}
+	
+	printf("%d", cnt);
+	return 0;
+}
+
+
+/*
+문제 소수합
+http://bbangdeveloper.tistory.com/entry/%EC%86%8C%EC%88%98%ED%95%A9-%EB%AC%B8%EC%A0%9C
+*/
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+int result = 0;
+void getChe(int start, int end) {
+	int *arr;
+	arr = (int*)malloc(sizeof(int)* (end + 1));
+
+	int i;
+
+	int sqrtNum = sqrt((double)end);
+
+	for (i = 1; i <= end; i++) {
+		arr[i] = 1;
+	}
+
+	for (i = 2; i <= sqrtNum; i++) {
+		if (arr[i] == 0) continue;
+		for (int j = i + i; j <= end; j += i) { 
+			arr[j] = 0;
+		}
+	}
+
+	for (i = start; i <= end; i++) {
+		if (arr[i] != 0){
+			result += i;
+		}
+	}
+
+}
+
+int main(void){
+	int s, e;
+	scanf("%d", &s);
+	scanf("%d", &e);
+
+	getChe(s, e);
+
+	printf("%d\n", result);
+
+	return 0;
+}
+
+
+/*
+문제 트럼프카드
+http://bbangdeveloper.tistory.com/entry/%ED%8A%B8%EB%9F%BC%ED%94%84%EC%B9%B4%EB%93%9C-%EB%AC%B8%EC%A0%9C-TrumpCard
+*/
+#include <stdio.h>
+
+#define N 13
+#define J 11
+#define Q 12
+#define K 13
+#define A 14
+
+
+int findIndex(int num, int* arr, int n){
+	for (int i = 0; i<n; i++){
+		if (arr[i] == num)
+			return i;
+	}
+	return -1;
+}
+
+int max(int a, int b){
+	if (a<b){
+		a = b;
+	}
+	return a;
+}
+
+int main(){
+	int input;
+
+	int arr1[N];
+	int arr2[N];
+	int mapping[N];
+	int res[N] = { 0 };
+	int out = 1;
+
+	for(int i =0; i<N; i++){
+		scanf("%c",&input);
+		arr1[i]=input;
+	}
+
+	for(int i =0; i<N; i++){
+		scanf("%c",&input);
+		arr2[i]=input;
+	}
+
+	for (int i = 0; i<N; i++){
+		mapping[i] = findIndex(arr1[i], arr2, N);
+	}
+
+	for (int i = N - 1; i >= 0; i--){
+		int index = mapping[i];
+		int max = 0;
+
+		for (int j = i + 1; j <N; j++){
+			int tmp = mapping[j];
+			if (index < tmp)
+				max = max > res[tmp] ? max : res[tmp];
+		}
+		res[index] = max + 1;
+	}
+
+	for (int i = 0; i<N; i++){
+		out = max(out, res[i]);
+	}
+	
+	printf("%d\n", out);
+
+	return 0;
+}
+
+
+/*
+문제 현관비밀번호 조합
+http://bbangdeveloper.tistory.com/entry/%ED%98%84%EA%B4%80-%EB%B9%84%EB%B0%80%EB%B2%88%ED%98%B8-%EB%AC%B8%EC%A0%9C
+*/
+#include <stdio.h>
+
+int odd[5];
+int even[5];
+int arr[11] = {0};
+
+int combi(int N,int M){
+	int res1=1, res2=1;
+	for (int i = N; i >= N-M+1; i--)
+		res1 *= i ;
+	for (int i = M; i >= 1; i--)
+		res2 *= i;
+
+	printf("combi %d %d    %d %d\n",N,M, res1, res2);
+	return res1 / res2;
+}
+
+int main(void){
+	int M, N,input,evenCnt=0,oddCnt=0;
+	scanf_s("%d %d", &N, &M);
+	int i;
+	for (i = 0; i < M; i++){
+		scanf_s("%d", &input);
+		arr[input] = 1;
+		if (input % 2 == 0)
+			evenCnt++;
+		else
+			oddCnt++;
+
+	}
+
+	int evenRes;
+	int oddRes;
+	int res = 0;
+	for (int i = 1; i <= evenCnt; i++){
+		if (i == N)
+			break;
+		evenRes = combi(evenCnt,i);
+		oddRes = combi(oddCnt,N-i);
+		printf("%d %d\n", evenRes,oddRes);
+		res += evenRes*oddRes;
+	}
+
+	printf("%d", res);
+
+	return 0;
+
+}
